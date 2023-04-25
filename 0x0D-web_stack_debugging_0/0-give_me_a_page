@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# A script to initialize the Apache server
+
+/etc/init.d/apache2 start
