@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
-# Installing nginx web server
-sudo apt-get update -y
-sudo apt-get install -y nginx
-echo "Hello World!" | sudo tee /var/www/html/index.html
+# Configures a new ubuntu machine by installing
+# Nginx where it should be listening on port 80
+# Serve a page that would return a Hello World string
+sudo apt-get  update -y
+sudo apt-get install nginx -y
+
+# allowing nginx on firewall
+ufw allow 'Nginx HTTP'
+
+# Creating new index
+echo "Hello World!" > /var/www/html/index.html
+
+# Starting nginx
 sudo service nginx start
