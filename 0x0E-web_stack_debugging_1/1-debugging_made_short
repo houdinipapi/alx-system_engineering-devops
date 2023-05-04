@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Shortening the server configuration
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+systemctl restart nginx
+systemctl status nginx.service | grep "Active: active (running)" >/dev/null || echo "nginx service is not running"
