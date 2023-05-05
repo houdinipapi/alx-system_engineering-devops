@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # Installing nginx web server
-sudo apt-get  update -y
-sudo apt-get install nginx -y
+sudo apt-get -y  update
+sudo apt-get -y install nginx
 
-# allowing nginx on firewall
-ufw allow 'Nginx HTTP'
+# Configure Nginx to listen on port 80
+sed -i 's/listen\s*80;/listen 80 default_server;/g' /etc/nginx/sites-available/default
 
-# Creating new index
-echo "Hello World!" > /var/www/html/index.html
+# Restart Nginx
+/etc/init.d/nginx restart
 
-# Starting nginx
-sudo service nginx start
+# Create a sample HTML file with "Hello World!" message
+echo "<html><body><h1>Hello World!</h1></body></html>" > /var/www/html/index.html
+
+# Test Nginx by making a GET request to the root /
+curl http://localhost/
