@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Installing nginx web server
 
-sudo apt update
-sudo apt install -y nginx
-sudo sed -i 's/# server_tokens off;/server_tokens off;/g' /etc/nginx/nginx.conf
-sudo sh -c 'echo "location / { return 200 \"Hello World!\"; }" > /etc/nginx/sites-available/default'
+sudo apt-get update -y
+sudo apt-get install -y nginx
+echo "Hello World!" | sudo tee /var/www/html/index.html
 sudo service nginx start
