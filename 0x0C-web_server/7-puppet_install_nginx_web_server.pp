@@ -1,35 +1,20 @@
-#!/usr/bin/env bash
-# Install Nginx package
+#setup nginx
 
-package { 'nginx':
-  ensure => installed,
+package {
+    'nginx':
+    ensure => installed,
 }
 
-# Configure Nginx
-file { '/etc/nginx/sites-available/default':
-  content => "
-    server {
-      listen 80;
-      root /var/www/html;
-      index index.html;
-      location / {
-        try_files $uri $uri/ =404;
-      }
-      location /redirect_me {
-        return 301 https://www.example.com/;
-      }
-    }
-  ",
-  notify => Service['nginx'],
+file {'/var/www/html/index.nginx-debian.html':
+    content => 'Hello World!',
 }
 
-# Create root page
-file { '/var/www/html/index.html':
-  content => 'Hello World!',
+file_line {'configure redirection':
+    path  =>  '/etc/nginx/sites-available/default',
+    after =>  'server_name _;',
+    line  =>  "\n\tlocation /redirect_me {\n\t\treturn 301 https://youtu.be/dQw4w9WgXcQ;\n\t}\n",
 }
 
-# Enable Nginx service
-service { 'nginx':
-  ensure => running,
-  enable => true,
+service {'nginx':
+    ensure => running,
 }
