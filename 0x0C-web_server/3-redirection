@@ -3,20 +3,8 @@
 
 sudo apt-get update -y
 sudo apt-get install -y nginx
-echo "server {
-	listen 80;
-	server_name _;
 
-	location /redirect_me {
-		return 301 https://www.youtube.com/new_page;
-	}
-
-	location / {
-		return 200 "Hello World!";
-	}
-}" > /etc/nginx/sites-available/redirect
-
-ln -s /etc/nginx/sites-available/redirect /etc/nginx/sites-enabled/
-rm /etc/nginx/sites-enabled/default
+sed -i "48i\\\tif (\$request_filename ~ redirect_me){\n\t\t\
+rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\t}" /etc/nginx/sites-available/default
 
 service nginx restart
