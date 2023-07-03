@@ -41,6 +41,7 @@ listen hbnb
     balance roundrobin
     option httpclose
     option forwardfor
+	http-response set-header Connection keep-alive
     server 167389-web-01 54.89.194.128:80 check
     server 167389-web-02 54.209.119.141:80 check
 " >> /etc/haproxy/haproxy.cfg
