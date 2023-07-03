@@ -1,27 +1,51 @@
 #!/usr/bin/env bash
+# Installs and configure HAproxy on my 1b-01 server.
+# Configured to send traffic to web-01 and web-02
+# Distributes requests using roundrobin algorithm.
+# Configured with hostnames :167389-web-01 and 167389-web-02.
 
-# Install HAproxy if not already installed
-if ! command -v haproxy &> /dev/null; then
-	sudo apt update
-	sudo apt install -y haproxy
-fi
 
-# Configure HAproxy
-sudo bash -c 'cat > /etc/haproxy/haproxy.cfg << EOF
-frontend web_servers
-	bind *:80
-	mode http
-	default_backend backend_servers
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get update
+apt-get install -y haproxy=1.8.\*
 
-backend backend_servers
-	mode http
-	balance roundrobin
-	server web_01 172654-web-01:80 check
-	server web-02 172654-web-02:80 check
-EOF'
 
-# Enable HAproxy init script
-sudo sed -i 's/ENABLED=0/ENABLED=1' /etc/default/haproxy
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
 
-# Restart HAproxy
-sudo service haproxy restart
+
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
+
+defaults
+   log    global
+   mode   http
+   option httplog
+   option dontlognull
+   retries 3
+   option redispatch
+   timeout connect 5000
+   timeout client  50000
+   timeout server  50000
+
+listen hbnb
+    bind 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    balance roundrobin
+    option httpclose
+    option forwardfor
+    server 167389-web-01 54.89.194.128:80 check
+    server 167389-web-02 54.209.119.141:80 check
+" >> /etc/haproxy/haproxy.cfg
+
+service haproxy start
+sudo systemctl restart haproxy.service
+
+sudo systemctl enable haproxy.service
