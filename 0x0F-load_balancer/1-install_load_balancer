@@ -2,13 +2,13 @@
 # Installs and configure HAproxy on my 1b-01 server.
 # Configured to send traffic to web-01 and web-02
 # Distributes requests using roundrobin algorithm.
-# Configured with hostnames :167389-web-01 and 167389-web-02.
+# Configured with hostnames :172654-web-01 and 172654-web-02.
 
 
 apt-get install -y software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-1.8
+add-apt-repository -y ppa:vbernat/haproxy
 apt-get update
-apt-get install -y haproxy=1.8.\*
+apt-get install -y haproxy
 
 
 echo "ENABLED=1" >> /etc/default/haproxy
@@ -41,12 +41,12 @@ listen hbnb
     balance roundrobin
     option httpclose
     option forwardfor
-	http-response set-header Connection keep-alive
-    server 167389-web-01 54.89.194.128:80 check
-    server 167389-web-02 54.209.119.141:80 check
+    http-response set-header Connection keep-alive
+    server 172654-web-01 35.174.207.82:80 check
+    server 172654-web-02 35.175.64.176:80 check
 " >> /etc/haproxy/haproxy.cfg
 
 service haproxy start
-sudo systemctl restart haproxy.service
-
 sudo systemctl enable haproxy.service
+
+sudo systemctl restart haproxy.service
