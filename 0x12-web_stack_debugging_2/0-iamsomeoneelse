@@ -3,4 +3,10 @@
 # The script should run the `whoami` command under the user
 # passed as an argument
 
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <username>"
+    exit 1
+fi
+
+# Switch user and run whoami
 sudo -u "$1" whoami
