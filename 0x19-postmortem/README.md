@@ -4,7 +4,7 @@
 
 ## Issue Summary:
 **Duration:** August 10, 2023, 13:45 - August 11, 2023, 09:20 (UTC)
-**Impact:* Web Application Unavailability, 30% Users Affected
+**Impact:** Web Application Unavailability, 30% Users Affected
 
 ### Timeline:
 - August 10, 2023, 13:45: Issue detected through monitoring alert indicating a spike in HTTP 500 errors.
