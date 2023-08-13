@@ -8,7 +8,7 @@
 
 ### Timeline:
 - August 10, 2023, 13:45: Issue detected through monitoring alert indicating a spike in HTTP 500 errors.
-- August 10, 2023, 13:50: Engineering team initiated investigation, suspecting a potential database connection issue.
+- August 10, 2023, 13:50: The engineering team initiated an investigation, suspecting a potential database connection issue.
 - August 10, 2023, 14:15: Misleading assumption that high load on the database was causing the errors.
 - August 10, 2023, 15:30: Incident escalated to DevOps and Database teams due to persistent errors.
 - August 10, 2023, 16:20: DevOps team identified resource exhaustion on application servers and increased response times.
