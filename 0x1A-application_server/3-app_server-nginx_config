@@ -3,10 +3,10 @@
 server {
     # Listen on port 80
     listen      80;
-    #listen      [::]:80 default_server ipv6only=on;
+    listen      [::]:80;
 
     # Use IP of server as domain name
-    server_name 35.174.207.82;
+    #server_name 35.174.207.82;
 
     # Customize HTTP response header
     add_header  X-Served-By 172654-web-01;
